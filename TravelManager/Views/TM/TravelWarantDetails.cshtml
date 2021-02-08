@@ -1,0 +1,103 @@
+﻿@model TravelManager.Models.TravelWarrant
+
+
+@{
+    ViewBag.Title = "TravelWarantDetails";
+    var routes = ViewBag.routes as List<Route>;
+
+}
+
+<h2>Travel Warant Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDTravelInfo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDTravelInfo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TravelLength)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TravelLength)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DaysExpected)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DaysExpected)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartCity)
+        </dt>
+
+        <dd>
+            @Html.Action(actionName: "GetCity", routeValues: new { IDCity = Model.StartCity })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StopCity)
+        </dt>
+
+        <dd>
+            @Html.Action(actionName: "GetCity", routeValues: new { IDCity = Model.StopCity })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarID)
+        </dt>
+
+        <dd>
+            @Html.Action(actionName: "GetCar", routeValues: new { IDCar = Model.CarID })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DriverID)
+        </dt>
+
+        <dd>
+            @*  @Html.DisplayFor(model => model.DriverID)*@
+            @Html.Action(actionName: "GetDriver", routeValues: new { IDDriver = Model.DriverID })
+        </dd>
+
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Add route", "AddRoute", new { IDTravelWarrant = Model.IDTravelInfo }, new { @class = "btn btn-sm btn-primary" })
+    @Html.ActionLink("Export route", "CreateXml", null, new { @class = "btn btn-sm btn-primary" })
+    @Html.ActionLink("Import route", "ImportXml", null, new { @class = "btn btn-sm btn-primary" })
+    @Html.ActionLink("Delete routes", "DeleteRoutes", new { IDTravelWarrant = Model.IDTravelInfo }, new { @class = "btn btn-sm btn-primary" })
+
+</p>
+
+
+<div>
+    <h2>Route Details</h2>
+    @Html.Action("RouteDetails", new { IDTravelWarrant = Model.IDTravelInfo })
+
+
+</div>
+
+ 
+
+<p>
+    @Html.ActionLink("Back to List", "TravelWarrant", null, new { @class = "btn btn-sm btn-primary" })
+</p>

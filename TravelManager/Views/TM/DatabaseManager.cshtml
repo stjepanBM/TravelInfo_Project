@@ -1,0 +1,15 @@
+﻿@model IEnumerable<TravelManager.Models.City>
+
+@{
+    ViewBag.Title = "DatabaseManager";
+}
+
+<h2>DatabaseManager</h2>
+
+<p>
+    @Html.ActionLink("Backup database", "BackupDatabase", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Restore database", "RestoreDatabase", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Clear database", "ClearDatabase", null, new { @class = "btn btn-primary" })
+</p>
+
+

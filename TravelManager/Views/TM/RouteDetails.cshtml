@@ -1,0 +1,80 @@
+﻿@model IEnumerable<TravelManager.Models.Route>
+
+
+@{
+    ViewBag.Title = "RouteDetails";
+}
+
+
+<table class="table table-striped" >
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoordinatesALength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoordinatesAWidth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoordinatesBLength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoordinatesBWidth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TravelLength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageSpeed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FuelConsumption)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoordinatesALength)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoordinatesAWidth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoordinatesBLength)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoordinatesBWidth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TravelLength)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AverageSpeed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuelConsumption)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditRoute", new { IDRoute = item.IDRoute }, new { @class = "btn btn-sm btn-success " })
+                    @Html.ActionLink("Delete", "DeleteRoute", new { IDRoute = item.IDRoute }, new { onclick = "return confirm('Are you sure you want to delete Route ')" + item.IDRoute, @class = "btn btn-sm btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

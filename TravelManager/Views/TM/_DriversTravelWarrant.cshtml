@@ -1,0 +1,70 @@
+﻿@model IEnumerable<TravelManager.Models.TravelWarrant>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TravelLength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysExpected)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.StartCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StopCity)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CarID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DriverID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TravelLength)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DaysExpected)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartCity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StopCity)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverID)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

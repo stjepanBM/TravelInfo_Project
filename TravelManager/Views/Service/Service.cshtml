@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CustomCar.Service>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Car service</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateService",new { idCar = ViewBag.car.IDCar }, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr> 
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfService)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car.CarType)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfService)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Car.CarType)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditService", new { idService = item.IDService }, new { @class = "btn btn-primary " }) 
+            @Html.ActionLink("Details", "Item", new { idService = item.IDService }, new { @class = "btn btn-primary " }) 
+            @Html.ActionLink("Delete", "DeleteService", new { idService = item.IDService}, new { @class = "btn btn-danger " })
+        </td>
+    </tr>
+}
+
+</table>

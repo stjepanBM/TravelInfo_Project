@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CustomCar.Service>
+@{
+    ViewBag.Title = "Report";
+   
+}
+
+<h2>Report on Car with id : @ViewBag.car.IDCar</h2>
+
+<br />
+<div class="form-group">
+
+    <h3>
+        Car passed: @ViewBag.km kilometers
+    </h3>
+    <h3>
+        Cars average speed is: @ViewBag.speed km/h
+    </h3>
+
+</div> 
+<br />
+<br />
+<h2>
+    Service List
+</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfService)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            Item
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfService)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @foreach (var i in ((ViewBag.item as ICollection<CustomCar.Item>).ToList().Where(t => t.Service.Equals( item.IDService))))
+                {
+                    <span> @((i as CustomCar.Item).Name +" " + (i as CustomCar.Item).Price)</span>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+ 

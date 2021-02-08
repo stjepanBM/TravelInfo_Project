@@ -1,0 +1,52 @@
+﻿@model IEnumerable<TravelManager.Models.TravelWarrant>
+
+@{
+    ViewBag.Title = "DriversTravelWarrant";
+}
+
+<h2>DriversTravelWarrant</h2>
+<br /> 
+<select class="form-control" id="ddlDrivers"></select>
+
+<div id="driverList">
+    @Html.Action("_DriversTravelWarrant", new { IDDriver = ViewBag.drivers.IDDriver })
+</div>
+
+@section   scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+    showDDLCities();
+
+    function showDDLCities() {
+            $.ajax({
+                url: '@Url.Action(controllerName:"AJAX",actionName:"GetDrivers")',
+                success: function (data) {
+                    $(data).each(function (index,driver) {
+                        var driverName = driver.DriverName;
+                        var option = new Option(driverName,driver.IDDriver,null,driver.IDDriver == @ViewBag.drivers.IDDriver);
+                        $("#ddlDrivers").append(option);
+                    })
+                }
+            })
+    }
+
+        $("#ddlDrivers").on("change", function () {
+
+        var idDriver= $(this).val();
+        $.ajax({
+            url:'@Url.Action(controllerName:"TM",actionName: "_DriversTravelWarrant")',
+            data: { IDDriver: idDriver },
+            success: function (data) {
+                $("#driverList").html(data);
+                $("table.table").DataTable();
+            }
+        })
+        })
+        $("table.table").DataTable();
+
+
+    </script>
+}

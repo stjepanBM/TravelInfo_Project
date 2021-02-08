@@ -1,0 +1,75 @@
+﻿@model IEnumerable<TravelManager.Models.Driver>
+
+@{
+    ViewBag.Title = "Drivers";
+}
+
+<h2>Drivers</h2>
+
+<p style="margin-bottom:3em;">
+    @Html.ActionLink("Create New", "AddDriver", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IDDriver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DriverName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DriverSurname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telephone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LicenceNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IDDriver)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverSurname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LicenceNumber)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Travel warrants", "DriversTravelWarrant", new { IDDriver = item.IDDriver }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Edit", "EditDriver", new { IDDriver = item.IDDriver }, new { @class = "btn btn-success " })
+
+                    @Html.ActionLink("Delete", "DeleteDriver", new { IDDriver = item.IDDriver }, new { onclick = "return confirm('Are you sure you want to delete Travel Warrant ')", @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section   scripts{
+
+    <script>
+        $("table.table").DataTable({
+            'columnDefs': [{
+                "orderable": false, "targets": [1, 2, 3, 5]
+            }]
+        });
+    </script>
+}

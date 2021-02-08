@@ -1,0 +1,103 @@
+<?xml version="1.0" standalone="yes"?>
+<TravelWarrant>
+  <xs:schema id="TravelWarrant" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="TravelWarrant" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="TravelInfo">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="IDTravelInfo" type="xs:int" minOccurs="0" />
+                <xs:element name="Status" type="xs:string" minOccurs="0" />
+                <xs:element name="DriverID" type="xs:int" minOccurs="0" />
+                <xs:element name="TravelLength" type="xs:double" minOccurs="0" />
+                <xs:element name="DaysExpected" type="xs:int" minOccurs="0" />
+                <xs:element name="StartCity" type="xs:int" minOccurs="0" />
+                <xs:element name="StopCity" type="xs:int" minOccurs="0" />
+                <xs:element name="CarID" type="xs:int" minOccurs="0" />
+                <xs:element name="Route" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="IDRoute" type="xs:int" minOccurs="0" />
+                      <xs:element name="Time" type="xs:string" minOccurs="0" />
+                      <xs:element name="CoordinatesALength" type="xs:string" minOccurs="0" />
+                      <xs:element name="CoordinatesAWidth" type="xs:string" minOccurs="0" />
+                      <xs:element name="CoordinatesBLength" type="xs:string" minOccurs="0" />
+                      <xs:element name="CoordinatesBWidth" type="xs:string" minOccurs="0" />
+                      <xs:element name="TravelLength" type="xs:int" minOccurs="0" />
+                      <xs:element name="AverageSpeed" type="xs:int" minOccurs="0" />
+                      <xs:element name="FuelConsumption" type="xs:int" minOccurs="0" />
+                      <xs:element name="TravelInfoID" type="xs:int" minOccurs="0" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1">
+        <xs:selector xpath=".//TravelInfo" />
+        <xs:field xpath="IDTravelInfo" />
+      </xs:unique>
+      <xs:keyref name="relacijaVozac" refer="Constraint1" msdata:IsNested="true">
+        <xs:selector xpath=".//Route" />
+        <xs:field xpath="TravelInfoID" />
+      </xs:keyref>
+    </xs:element>
+  </xs:schema>
+  <TravelInfo>
+    <IDTravelInfo>1</IDTravelInfo>
+    <Status>Active</Status>
+    <DriverID>1</DriverID>
+    <TravelLength>100</TravelLength>
+    <DaysExpected>3</DaysExpected>
+    <StartCity>2</StartCity>
+    <StopCity>3</StopCity>
+    <CarID>1</CarID>
+    <Route>
+      <IDRoute>4</IDRoute>
+      <Time>10:00</Time>
+      <CoordinatesALength>45.789</CoordinatesALength>
+      <CoordinatesAWidth>78.987</CoordinatesAWidth>
+      <CoordinatesBLength>78.195431</CoordinatesBLength>
+      <CoordinatesBWidth>12.444</CoordinatesBWidth>
+      <TravelLength>232</TravelLength>
+      <AverageSpeed>200</AverageSpeed>
+      <FuelConsumption>14</FuelConsumption>
+      <TravelInfoID>1</TravelInfoID>
+    </Route>
+  </TravelInfo>
+  <TravelInfo>
+    <IDTravelInfo>2</IDTravelInfo>
+    <Status>Future</Status>
+    <DriverID>2</DriverID>
+    <TravelLength>500</TravelLength>
+    <DaysExpected>5</DaysExpected>
+    <StartCity>2</StartCity>
+    <StopCity>4</StopCity>
+    <CarID>2</CarID>
+  </TravelInfo>
+  <TravelInfo>
+    <IDTravelInfo>3</IDTravelInfo>
+    <Status>Future</Status>
+    <DriverID>3</DriverID>
+    <TravelLength>1100</TravelLength>
+    <DaysExpected>15</DaysExpected>
+    <StartCity>2</StartCity>
+    <StopCity>3</StopCity>
+    <CarID>3</CarID>
+    <Route>
+      <IDRoute>3</IDRoute>
+      <Time>10:00</Time>
+      <CoordinatesALength>45.789</CoordinatesALength>
+      <CoordinatesAWidth>78.987</CoordinatesAWidth>
+      <CoordinatesBLength>78.195431</CoordinatesBLength>
+      <CoordinatesBWidth>12.444</CoordinatesBWidth>
+      <TravelLength>232</TravelLength>
+      <AverageSpeed>200</AverageSpeed>
+      <FuelConsumption>14</FuelConsumption>
+      <TravelInfoID>3</TravelInfoID>
+    </Route>
+  </TravelInfo>
+</TravelWarrant>

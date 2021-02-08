@@ -1,0 +1,1108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CarManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="IDCar" />
+          </Key>
+          <Property Name="IDCar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="50" />
+          <Property Name="YearOfMaking" Type="int" />
+          <Property Name="Mileage" Type="int" />
+          <Property Name="CarReserved" Type="bit" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="IDCity" />
+          </Key>
+          <Property Name="IDCity" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="StateID" Type="int" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="IDDriver" />
+          </Key>
+          <Property Name="IDDriver" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DriverName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DriverSurname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
+          <Property Name="LicenceNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="IDItem" />
+          </Key>
+          <Property Name="IDItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Price" Type="int" />
+          <Property Name="Service" Type="int" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="IDRoute" />
+          </Key>
+          <Property Name="IDRoute" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Time" Type="nvarchar" MaxLength="10" />
+          <Property Name="CoordinatesALength" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoordinatesAWidth" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoordinatesBLength" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoordinatesBWidth" Type="nvarchar" MaxLength="50" />
+          <Property Name="TravelLength" Type="int" />
+          <Property Name="AverageSpeed" Type="int" />
+          <Property Name="FuelConsumption" Type="int" />
+          <Property Name="TravelInfoID" Type="int" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateOfService" Type="datetime" />
+          <Property Name="Price" Type="int" />
+          <Property Name="CarIDCar" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="IDState" />
+          </Key>
+          <Property Name="IDState" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TravelInfo">
+          <Key>
+            <PropertyRef Name="IDTravelInfo" />
+          </Key>
+          <Property Name="IDTravelInfo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="DriverID" Type="int" />
+          <Property Name="TravelLength" Type="float" />
+          <Property Name="DaysExpected" Type="int" />
+          <Property Name="StartCity" Type="int" />
+          <Property Name="StopCity" Type="int" />
+          <Property Name="CarID" Type="int" />
+        </EntityType>
+        <Association Name="FK_CarService">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="IDCar" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="CarIDCar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CityState">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="IDState" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="IDService" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelCar">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="IDCar" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelDriver">
+          <End Role="Driver" Type="Self.Driver" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Driver">
+              <PropertyRef Name="IDDriver" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelInfoRoute">
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="0..1" />
+          <End Role="Route" Type="Self.Route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelInfo">
+              <PropertyRef Name="IDTravelInfo" />
+            </Principal>
+            <Dependent Role="Route">
+              <PropertyRef Name="TravelInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelStartCity">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IDCity" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="StartCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelStopCity">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IDCity" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="StopCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="addRoute" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Time" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesALength" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesAWidth" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesBLength" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesBWidth" Type="nvarchar" Mode="In" />
+          <Parameter Name="TravelLength" Type="int" Mode="In" />
+          <Parameter Name="AverageSpeed" Type="int" Mode="In" />
+          <Parameter Name="FuelConsumption" Type="int" Mode="In" />
+          <Parameter Name="TravelInfoID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="cleanDatabase" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="deleteCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDCar" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDCity" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteDriver" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDDriver" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteRoute" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDRoute" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteTravelInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDTravelInfo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDCar" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getCars" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getCities" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDCity" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getDriver" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDDriver" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getDrivers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getDriversTravelInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDDriver" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getRoute" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDRoute" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getRouteForTravelWarrant" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDTravelWarrant" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getService" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getTravelInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getTravelWarrant" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDTravelWarrant" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CarType" Type="nvarchar" Mode="In" />
+          <Parameter Name="Brand" Type="nvarchar" Mode="In" />
+          <Parameter Name="YearOdMaking" Type="int" Mode="In" />
+          <Parameter Name="Mileage" Type="int" Mode="In" />
+          <Parameter Name="CarReserved" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="insertCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CityName" Type="nvarchar" Mode="In" />
+          <Parameter Name="StateID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertDriver" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DriverName" Type="nvarchar" Mode="In" />
+          <Parameter Name="DriverSurname" Type="nvarchar" Mode="In" />
+          <Parameter Name="Telephone" Type="nvarchar" Mode="In" />
+          <Parameter Name="LicenceNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertService" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="DateOfService" Type="datetime" Mode="In" />
+          <Parameter Name="Price" Type="int" Mode="In" />
+          <Parameter Name="CarID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="insertTravelInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="DriverID" Type="int" Mode="In" />
+          <Parameter Name="TravelLength" Type="float" Mode="In" />
+          <Parameter Name="DaysExcpected" Type="int" Mode="In" />
+          <Parameter Name="StartCity" Type="int" Mode="In" />
+          <Parameter Name="StopCity" Type="int" Mode="In" />
+          <Parameter Name="CarID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDCar" Type="int" Mode="In" />
+          <Parameter Name="CarType" Type="nvarchar" Mode="In" />
+          <Parameter Name="Brand" Type="nvarchar" Mode="In" />
+          <Parameter Name="YearOfMaking" Type="int" Mode="In" />
+          <Parameter Name="Mileage" Type="int" Mode="In" />
+          <Parameter Name="CarReserved" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="updateCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDCity" Type="int" Mode="In" />
+          <Parameter Name="CityName" Type="nvarchar" Mode="In" />
+          <Parameter Name="StateID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateDriver" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDDriver" Type="int" Mode="In" />
+          <Parameter Name="DriverName" Type="nvarchar" Mode="In" />
+          <Parameter Name="DriverSurname" Type="nvarchar" Mode="In" />
+          <Parameter Name="Telephone" Type="nvarchar" Mode="In" />
+          <Parameter Name="LicenceNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateRoute" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDRoute" Type="int" Mode="In" />
+          <Parameter Name="Time" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesALength" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesAWidth" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesBLength" Type="nvarchar" Mode="In" />
+          <Parameter Name="CoordinatesBWidth" Type="nvarchar" Mode="In" />
+          <Parameter Name="TravelLength" Type="int" Mode="In" />
+          <Parameter Name="AverageSpeed" Type="int" Mode="In" />
+          <Parameter Name="FuelConsumption" Type="int" Mode="In" />
+          <Parameter Name="TravelInfoID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateTravelInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDTravel" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="DriverID" Type="int" Mode="In" />
+          <Parameter Name="TravelLength" Type="float" Mode="In" />
+          <Parameter Name="DaysExcpected" Type="int" Mode="In" />
+          <Parameter Name="StartCity" Type="int" Mode="In" />
+          <Parameter Name="StopCity" Type="int" Mode="In" />
+          <Parameter Name="CarID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="CarManagerModelStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Driver" EntityType="Self.Driver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Route" EntityType="Self.Route" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TravelInfo" EntityType="Self.TravelInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CarService" Association="Self.FK_CarService">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CityState" Association="Self.FK_CityState">
+            <End Role="State" EntitySet="State" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service" Association="Self.FK_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelCar" Association="Self.FK_TravelCar">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelDriver" Association="Self.FK_TravelDriver">
+            <End Role="Driver" EntitySet="Driver" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelInfoRoute" Association="Self.FK_TravelInfoRoute">
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+            <End Role="Route" EntitySet="Route" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelStartCity" Association="Self.FK_TravelStartCity">
+            <End Role="City" EntitySet="City" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelStopCity" Association="Self.FK_TravelStopCity">
+            <End Role="City" EntitySet="City" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="IDCar" />
+          </Key>
+          <Property Name="IDCar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="YearOfMaking" Type="Int32" />
+          <Property Name="Mileage" Type="Int32" />
+          <Property Name="CarReserved" Type="Boolean" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_CarService" FromRole="Car" ToRole="Service" />
+          <NavigationProperty Name="TravelInfo" Relationship="Self.FK_TravelCar" FromRole="Car" ToRole="TravelInfo" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="IDCity" />
+          </Key>
+          <Property Name="IDCity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StateID" Type="Int32" />
+          <NavigationProperty Name="State" Relationship="Self.FK_CityState" FromRole="City" ToRole="State" />
+          <NavigationProperty Name="TravelInfo" Relationship="Self.FK_TravelStartCity" FromRole="City" ToRole="TravelInfo" />
+          <NavigationProperty Name="TravelInfo1" Relationship="Self.FK_TravelStopCity" FromRole="City" ToRole="TravelInfo" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="IDDriver" />
+          </Key>
+          <Property Name="IDDriver" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DriverName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DriverSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LicenceNumber" Type="Int32" />
+          <NavigationProperty Name="TravelInfo" Relationship="Self.FK_TravelDriver" FromRole="Driver" ToRole="TravelInfo" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="IDItem" />
+          </Key>
+          <Property Name="IDItem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="Service" Type="Int32" />
+          <NavigationProperty Name="Service1" Relationship="Self.FK_Service" FromRole="Item" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="IDRoute" />
+          </Key>
+          <Property Name="IDRoute" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CoordinatesALength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoordinatesAWidth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoordinatesBLength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoordinatesBWidth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TravelLength" Type="Int32" />
+          <Property Name="AverageSpeed" Type="Int32" />
+          <Property Name="FuelConsumption" Type="Int32" />
+          <Property Name="TravelInfoID" Type="Int32" />
+          <NavigationProperty Name="TravelInfo" Relationship="Self.FK_TravelInfoRoute" FromRole="Route" ToRole="TravelInfo" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateOfService" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="CarIDCar" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_CarService" FromRole="Service" ToRole="Car" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Service" FromRole="Service" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="IDState" />
+          </Key>
+          <Property Name="IDState" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="City" Relationship="Self.FK_CityState" FromRole="State" ToRole="City" />
+        </EntityType>
+        <EntityType Name="TravelInfo">
+          <Key>
+            <PropertyRef Name="IDTravelInfo" />
+          </Key>
+          <Property Name="IDTravelInfo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DriverID" Type="Int32" />
+          <Property Name="TravelLength" Type="Double" />
+          <Property Name="DaysExpected" Type="Int32" />
+          <Property Name="StartCity" Type="Int32" />
+          <Property Name="StopCity" Type="Int32" />
+          <Property Name="CarID" Type="Int32" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_TravelCar" FromRole="TravelInfo" ToRole="Car" />
+          <NavigationProperty Name="City" Relationship="Self.FK_TravelStartCity" FromRole="TravelInfo" ToRole="City" />
+          <NavigationProperty Name="City1" Relationship="Self.FK_TravelStopCity" FromRole="TravelInfo" ToRole="City" />
+          <NavigationProperty Name="Driver" Relationship="Self.FK_TravelDriver" FromRole="TravelInfo" ToRole="Driver" />
+          <NavigationProperty Name="Route" Relationship="Self.FK_TravelInfoRoute" FromRole="TravelInfo" ToRole="Route" />
+        </EntityType>
+        <Association Name="FK_CarService">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="IDCar" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="CarIDCar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelCar">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="IDCar" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CityState">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="IDState" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelStartCity">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IDCity" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="StartCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelStopCity">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IDCity" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="StopCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelDriver">
+          <End Role="Driver" Type="Self.Driver" Multiplicity="0..1" />
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Driver">
+              <PropertyRef Name="IDDriver" />
+            </Principal>
+            <Dependent Role="TravelInfo">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="IDService" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TravelInfoRoute">
+          <End Role="TravelInfo" Type="Self.TravelInfo" Multiplicity="0..1" />
+          <End Role="Route" Type="Self.Route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelInfo">
+              <PropertyRef Name="IDTravelInfo" />
+            </Principal>
+            <Dependent Role="Route">
+              <PropertyRef Name="TravelInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Car" EntityType="Self.Car" />
+          <EntitySet Name="City" EntityType="Self.City" />
+          <EntitySet Name="Driver" EntityType="Self.Driver" />
+          <EntitySet Name="Item" EntityType="Self.Item" />
+          <EntitySet Name="Route" EntityType="Self.Route" />
+          <EntitySet Name="Service" EntityType="Self.Service" />
+          <EntitySet Name="State" EntityType="Self.State" />
+          <EntitySet Name="TravelInfo" EntityType="Self.TravelInfo" />
+          <AssociationSet Name="FK_CarService" Association="Self.FK_CarService">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelCar" Association="Self.FK_TravelCar">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CityState" Association="Self.FK_CityState">
+            <End Role="State" EntitySet="State" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelStartCity" Association="Self.FK_TravelStartCity">
+            <End Role="City" EntitySet="City" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelStopCity" Association="Self.FK_TravelStopCity">
+            <End Role="City" EntitySet="City" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelDriver" Association="Self.FK_TravelDriver">
+            <End Role="Driver" EntitySet="Driver" />
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service" Association="Self.FK_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TravelInfoRoute" Association="Self.FK_TravelInfoRoute">
+            <End Role="TravelInfo" EntitySet="TravelInfo" />
+            <End Role="Route" EntitySet="Route" />
+          </AssociationSet>
+          <FunctionImport Name="addRoute">
+            <Parameter Name="Time" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesALength" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesAWidth" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesBLength" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesBWidth" Mode="In" Type="String" />
+            <Parameter Name="TravelLength" Mode="In" Type="Int32" />
+            <Parameter Name="AverageSpeed" Mode="In" Type="Int32" />
+            <Parameter Name="FuelConsumption" Mode="In" Type="Int32" />
+            <Parameter Name="TravelInfoID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="cleanDatabase" />
+          <FunctionImport Name="deleteCar">
+          <Parameter Name="IDCar" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteCity">
+          <Parameter Name="IDCity" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteDriver">
+          <Parameter Name="IDDriver" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteRoute">
+          <Parameter Name="IDRoute" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteTravelInfo">
+          <Parameter Name="IDTravelInfo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getCar" ReturnType="Collection(CarManagerModel.getCar_Result)">
+          <Parameter Name="IDCar" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getCars" ReturnType="Collection(CarManagerModel.getCars_Result)" />
+          <FunctionImport Name="getCities" ReturnType="Collection(CarManagerModel.getCities_Result)" />
+          <FunctionImport Name="getCity" ReturnType="Collection(CarManagerModel.getCity_Result)">
+          <Parameter Name="IDCity" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getDriver" ReturnType="Collection(CarManagerModel.getDriver_Result)">
+          <Parameter Name="IDDriver" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getDrivers" ReturnType="Collection(CarManagerModel.getDrivers_Result)" />
+          <FunctionImport Name="getDriversTravelInfo" ReturnType="Collection(CarManagerModel.getDriversTravelInfo_Result)">
+          <Parameter Name="IDDriver" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getRoute" ReturnType="Collection(CarManagerModel.getRoute_Result)">
+          <Parameter Name="IDRoute" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getRouteForTravelWarrant" ReturnType="Collection(CarManagerModel.getRouteForTravelWarrant_Result)">
+          <Parameter Name="IDTravelWarrant" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getTravelInfo" ReturnType="Collection(CarManagerModel.getTravelInfo_Result)" />
+          <FunctionImport Name="getTravelWarrant" ReturnType="Collection(CarManagerModel.getTravelWarrant_Result)">
+          <Parameter Name="IDTravelWarrant" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertCar">
+            <Parameter Name="CarType" Mode="In" Type="String" />
+            <Parameter Name="Brand" Mode="In" Type="String" />
+            <Parameter Name="YearOdMaking" Mode="In" Type="Int32" />
+            <Parameter Name="Mileage" Mode="In" Type="Int32" />
+            <Parameter Name="CarReserved" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="insertCity">
+            <Parameter Name="CityName" Mode="In" Type="String" />
+            <Parameter Name="StateID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertDriver">
+            <Parameter Name="DriverName" Mode="In" Type="String" />
+            <Parameter Name="DriverSurname" Mode="In" Type="String" />
+            <Parameter Name="Telephone" Mode="In" Type="String" />
+            <Parameter Name="LicenceNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertTravelInfo">
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="DriverID" Mode="In" Type="Int32" />
+            <Parameter Name="TravelLength" Mode="In" Type="Double" />
+            <Parameter Name="DaysExcpected" Mode="In" Type="Int32" />
+            <Parameter Name="StartCity" Mode="In" Type="Int32" />
+            <Parameter Name="StopCity" Mode="In" Type="Int32" />
+            <Parameter Name="CarID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateCar">
+            <Parameter Name="IDCar" Mode="In" Type="Int32" />
+            <Parameter Name="CarType" Mode="In" Type="String" />
+            <Parameter Name="Brand" Mode="In" Type="String" />
+            <Parameter Name="YearOfMaking" Mode="In" Type="Int32" />
+            <Parameter Name="Mileage" Mode="In" Type="Int32" />
+            <Parameter Name="CarReserved" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="updateCity">
+            <Parameter Name="IDCity" Mode="In" Type="Int32" />
+            <Parameter Name="CityName" Mode="In" Type="String" />
+            <Parameter Name="StateID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateDriver">
+            <Parameter Name="IDDriver" Mode="In" Type="Int32" />
+            <Parameter Name="DriverName" Mode="In" Type="String" />
+            <Parameter Name="DriverSurname" Mode="In" Type="String" />
+            <Parameter Name="Telephone" Mode="In" Type="String" />
+            <Parameter Name="LicenceNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateRoute">
+            <Parameter Name="IDRoute" Mode="In" Type="Int32" />
+            <Parameter Name="Time" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesALength" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesAWidth" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesBLength" Mode="In" Type="String" />
+            <Parameter Name="CoordinatesBWidth" Mode="In" Type="String" />
+            <Parameter Name="TravelLength" Mode="In" Type="Int32" />
+            <Parameter Name="AverageSpeed" Mode="In" Type="Int32" />
+            <Parameter Name="FuelConsumption" Mode="In" Type="Int32" />
+            <Parameter Name="TravelInfoID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateTravelInfo">
+            <Parameter Name="IDTravel" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="DriverID" Mode="In" Type="Int32" />
+            <Parameter Name="TravelLength" Mode="In" Type="Double" />
+            <Parameter Name="DaysExcpected" Mode="In" Type="Int32" />
+            <Parameter Name="StartCity" Mode="In" Type="Int32" />
+            <Parameter Name="StopCity" Mode="In" Type="Int32" />
+            <Parameter Name="CarID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insertService">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="DateOfService" Mode="In" Type="DateTime" />
+            <Parameter Name="Price" Mode="In" Type="Int32" />
+            <Parameter Name="CarID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getService" ReturnType="Collection(CarManagerModel.getService_Result)" />
+        </EntityContainer>
+        <ComplexType Name="getCar_Result">
+          <Property Type="Int32" Name="IDCar" Nullable="false" />
+          <Property Type="String" Name="CarType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Brand" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="YearOfMaking" Nullable="true" />
+          <Property Type="Int32" Name="Mileage" Nullable="true" />
+          <Property Type="Boolean" Name="CarReserved" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getCars_Result">
+          <Property Type="Int32" Name="IDCar" Nullable="false" />
+          <Property Type="String" Name="CarType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Brand" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="YearOfMaking" Nullable="true" />
+          <Property Type="Int32" Name="Mileage" Nullable="true" />
+          <Property Type="Boolean" Name="CarReserved" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getCities_Result">
+          <Property Type="Int32" Name="IDCity" Nullable="false" />
+          <Property Type="String" Name="CityName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="StateID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getCity_Result">
+          <Property Type="Int32" Name="IDCity" Nullable="false" />
+          <Property Type="String" Name="CityName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="StateID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getDriver_Result">
+          <Property Type="Int32" Name="IDDriver" Nullable="false" />
+          <Property Type="String" Name="DriverName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DriverSurname" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Telephone" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="LicenceNumber" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getDrivers_Result">
+          <Property Type="Int32" Name="IDDriver" Nullable="false" />
+          <Property Type="String" Name="DriverName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DriverSurname" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Telephone" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="LicenceNumber" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getDriversTravelInfo_Result">
+          <Property Type="Int32" Name="IDTravelInfo" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="DriverID" Nullable="true" />
+          <Property Type="Double" Name="TravelLength" Nullable="true" />
+          <Property Type="Int32" Name="DaysExpected" Nullable="true" />
+          <Property Type="Int32" Name="StartCity" Nullable="true" />
+          <Property Type="Int32" Name="StopCity" Nullable="true" />
+          <Property Type="Int32" Name="CarID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getRoute_Result">
+          <Property Type="Int32" Name="IDRoute" Nullable="false" />
+          <Property Type="String" Name="Time" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CoordinatesALength" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CoordinatesAWidth" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CoordinatesBLength" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CoordinatesBWidth" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TravelLength" Nullable="true" />
+          <Property Type="Int32" Name="AverageSpeed" Nullable="true" />
+          <Property Type="Int32" Name="FuelConsumption" Nullable="true" />
+          <Property Type="Int32" Name="TravelInfoID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getRouteForTravelWarrant_Result">
+          <Property Type="Int32" Name="IDRoute" Nullable="false" />
+          <Property Type="String" Name="Time" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CoordinatesALength" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CoordinatesAWidth" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CoordinatesBLength" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CoordinatesBWidth" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TravelLength" Nullable="true" />
+          <Property Type="Int32" Name="AverageSpeed" Nullable="true" />
+          <Property Type="Int32" Name="FuelConsumption" Nullable="true" />
+          <Property Type="Int32" Name="TravelInfoID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getTravelInfo_Result">
+          <Property Type="Int32" Name="IDTravelInfo" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="DriverID" Nullable="true" />
+          <Property Type="Double" Name="TravelLength" Nullable="true" />
+          <Property Type="Int32" Name="DaysExpected" Nullable="true" />
+          <Property Type="Int32" Name="StartCity" Nullable="true" />
+          <Property Type="Int32" Name="StopCity" Nullable="true" />
+          <Property Type="Int32" Name="CarID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getTravelWarrant_Result">
+          <Property Type="Int32" Name="IDTravelInfo" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="DriverID" Nullable="true" />
+          <Property Type="Double" Name="TravelLength" Nullable="true" />
+          <Property Type="Int32" Name="DaysExpected" Nullable="true" />
+          <Property Type="Int32" Name="StartCity" Nullable="true" />
+          <Property Type="Int32" Name="StopCity" Nullable="true" />
+          <Property Type="Int32" Name="CarID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getService_Result">
+          <Property Type="Int32" Name="IDService" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DateOfService" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Price" Nullable="true" />
+          <Property Type="Int32" Name="CarIDCar" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarManagerModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Car">
+            <EntityTypeMapping TypeName="CarManagerModel.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="IDCar" ColumnName="IDCar" />
+                <ScalarProperty Name="CarType" ColumnName="CarType" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="YearOfMaking" ColumnName="YearOfMaking" />
+                <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+                <ScalarProperty Name="CarReserved" ColumnName="CarReserved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="CarManagerModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="IDCity" ColumnName="IDCity" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Driver">
+            <EntityTypeMapping TypeName="CarManagerModel.Driver">
+              <MappingFragment StoreEntitySet="Driver">
+                <ScalarProperty Name="IDDriver" ColumnName="IDDriver" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="DriverSurname" ColumnName="DriverSurname" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Item">
+            <EntityTypeMapping TypeName="CarManagerModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="IDItem" ColumnName="IDItem" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Service" ColumnName="Service" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Route">
+            <EntityTypeMapping TypeName="CarManagerModel.Route">
+              <MappingFragment StoreEntitySet="Route">
+                <ScalarProperty Name="IDRoute" ColumnName="IDRoute" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="CoordinatesALength" ColumnName="CoordinatesALength" />
+                <ScalarProperty Name="CoordinatesAWidth" ColumnName="CoordinatesAWidth" />
+                <ScalarProperty Name="CoordinatesBLength" ColumnName="CoordinatesBLength" />
+                <ScalarProperty Name="CoordinatesBWidth" ColumnName="CoordinatesBWidth" />
+                <ScalarProperty Name="TravelLength" ColumnName="TravelLength" />
+                <ScalarProperty Name="AverageSpeed" ColumnName="AverageSpeed" />
+                <ScalarProperty Name="FuelConsumption" ColumnName="FuelConsumption" />
+                <ScalarProperty Name="TravelInfoID" ColumnName="TravelInfoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="CarManagerModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+                <ScalarProperty Name="DateOfService" ColumnName="DateOfService" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CarIDCar" ColumnName="CarIDCar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="State">
+            <EntityTypeMapping TypeName="CarManagerModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="IDState" ColumnName="IDState" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TravelInfo">
+            <EntityTypeMapping TypeName="CarManagerModel.TravelInfo">
+              <MappingFragment StoreEntitySet="TravelInfo">
+                <ScalarProperty Name="IDTravelInfo" ColumnName="IDTravelInfo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="TravelLength" ColumnName="TravelLength" />
+                <ScalarProperty Name="DaysExpected" ColumnName="DaysExpected" />
+                <ScalarProperty Name="StartCity" ColumnName="StartCity" />
+                <ScalarProperty Name="StopCity" ColumnName="StopCity" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="addRoute" FunctionName="CarManagerModel.Store.addRoute" />
+          <FunctionImportMapping FunctionImportName="cleanDatabase" FunctionName="CarManagerModel.Store.cleanDatabase" />
+          <FunctionImportMapping FunctionImportName="deleteCar" FunctionName="CarManagerModel.Store.deleteCar" />
+          <FunctionImportMapping FunctionImportName="deleteCity" FunctionName="CarManagerModel.Store.deleteCity" />
+          <FunctionImportMapping FunctionImportName="deleteDriver" FunctionName="CarManagerModel.Store.deleteDriver" />
+          <FunctionImportMapping FunctionImportName="deleteRoute" FunctionName="CarManagerModel.Store.deleteRoute" />
+          <FunctionImportMapping FunctionImportName="deleteTravelInfo" FunctionName="CarManagerModel.Store.deleteTravelInfo" />
+          <FunctionImportMapping FunctionImportName="getCar" FunctionName="CarManagerModel.Store.getCar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getCar_Result">
+                <ScalarProperty Name="IDCar" ColumnName="IDCar" />
+                <ScalarProperty Name="CarType" ColumnName="CarType" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="YearOfMaking" ColumnName="YearOfMaking" />
+                <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+                <ScalarProperty Name="CarReserved" ColumnName="CarReserved" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCars" FunctionName="CarManagerModel.Store.getCars">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getCars_Result">
+                <ScalarProperty Name="IDCar" ColumnName="IDCar" />
+                <ScalarProperty Name="CarType" ColumnName="CarType" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="YearOfMaking" ColumnName="YearOfMaking" />
+                <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+                <ScalarProperty Name="CarReserved" ColumnName="CarReserved" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCities" FunctionName="CarManagerModel.Store.getCities">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getCities_Result">
+                <ScalarProperty Name="IDCity" ColumnName="IDCity" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCity" FunctionName="CarManagerModel.Store.getCity">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getCity_Result">
+                <ScalarProperty Name="IDCity" ColumnName="IDCity" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getDriver" FunctionName="CarManagerModel.Store.getDriver">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getDriver_Result">
+                <ScalarProperty Name="IDDriver" ColumnName="IDDriver" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="DriverSurname" ColumnName="DriverSurname" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getDrivers" FunctionName="CarManagerModel.Store.getDrivers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getDrivers_Result">
+                <ScalarProperty Name="IDDriver" ColumnName="IDDriver" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="DriverSurname" ColumnName="DriverSurname" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getDriversTravelInfo" FunctionName="CarManagerModel.Store.getDriversTravelInfo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getDriversTravelInfo_Result">
+                <ScalarProperty Name="IDTravelInfo" ColumnName="IDTravelInfo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="TravelLength" ColumnName="TravelLength" />
+                <ScalarProperty Name="DaysExpected" ColumnName="DaysExpected" />
+                <ScalarProperty Name="StartCity" ColumnName="StartCity" />
+                <ScalarProperty Name="StopCity" ColumnName="StopCity" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getRoute" FunctionName="CarManagerModel.Store.getRoute">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getRoute_Result">
+                <ScalarProperty Name="IDRoute" ColumnName="IDRoute" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="CoordinatesALength" ColumnName="CoordinatesALength" />
+                <ScalarProperty Name="CoordinatesAWidth" ColumnName="CoordinatesAWidth" />
+                <ScalarProperty Name="CoordinatesBLength" ColumnName="CoordinatesBLength" />
+                <ScalarProperty Name="CoordinatesBWidth" ColumnName="CoordinatesBWidth" />
+                <ScalarProperty Name="TravelLength" ColumnName="TravelLength" />
+                <ScalarProperty Name="AverageSpeed" ColumnName="AverageSpeed" />
+                <ScalarProperty Name="FuelConsumption" ColumnName="FuelConsumption" />
+                <ScalarProperty Name="TravelInfoID" ColumnName="TravelInfoID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getRouteForTravelWarrant" FunctionName="CarManagerModel.Store.getRouteForTravelWarrant">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getRouteForTravelWarrant_Result">
+                <ScalarProperty Name="IDRoute" ColumnName="IDRoute" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="CoordinatesALength" ColumnName="CoordinatesALength" />
+                <ScalarProperty Name="CoordinatesAWidth" ColumnName="CoordinatesAWidth" />
+                <ScalarProperty Name="CoordinatesBLength" ColumnName="CoordinatesBLength" />
+                <ScalarProperty Name="CoordinatesBWidth" ColumnName="CoordinatesBWidth" />
+                <ScalarProperty Name="TravelLength" ColumnName="TravelLength" />
+                <ScalarProperty Name="AverageSpeed" ColumnName="AverageSpeed" />
+                <ScalarProperty Name="FuelConsumption" ColumnName="FuelConsumption" />
+                <ScalarProperty Name="TravelInfoID" ColumnName="TravelInfoID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getTravelInfo" FunctionName="CarManagerModel.Store.getTravelInfo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getTravelInfo_Result">
+                <ScalarProperty Name="IDTravelInfo" ColumnName="IDTravelInfo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="TravelLength" ColumnName="TravelLength" />
+                <ScalarProperty Name="DaysExpected" ColumnName="DaysExpected" />
+                <ScalarProperty Name="StartCity" ColumnName="StartCity" />
+                <ScalarProperty Name="StopCity" ColumnName="StopCity" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getTravelWarrant" FunctionName="CarManagerModel.Store.getTravelWarrant">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getTravelWarrant_Result">
+                <ScalarProperty Name="IDTravelInfo" ColumnName="IDTravelInfo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="TravelLength" ColumnName="TravelLength" />
+                <ScalarProperty Name="DaysExpected" ColumnName="DaysExpected" />
+                <ScalarProperty Name="StartCity" ColumnName="StartCity" />
+                <ScalarProperty Name="StopCity" ColumnName="StopCity" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="insertCar" FunctionName="CarManagerModel.Store.insertCar" />
+          <FunctionImportMapping FunctionImportName="insertCity" FunctionName="CarManagerModel.Store.insertCity" />
+          <FunctionImportMapping FunctionImportName="insertDriver" FunctionName="CarManagerModel.Store.insertDriver" />
+          <FunctionImportMapping FunctionImportName="insertTravelInfo" FunctionName="CarManagerModel.Store.insertTravelInfo" />
+          <FunctionImportMapping FunctionImportName="updateCar" FunctionName="CarManagerModel.Store.updateCar" />
+          <FunctionImportMapping FunctionImportName="updateCity" FunctionName="CarManagerModel.Store.updateCity" />
+          <FunctionImportMapping FunctionImportName="updateDriver" FunctionName="CarManagerModel.Store.updateDriver" />
+          <FunctionImportMapping FunctionImportName="updateRoute" FunctionName="CarManagerModel.Store.updateRoute" />
+          <FunctionImportMapping FunctionImportName="updateTravelInfo" FunctionName="CarManagerModel.Store.updateTravelInfo" />
+          <FunctionImportMapping FunctionImportName="insertService" FunctionName="CarManagerModel.Store.insertService" />
+          <FunctionImportMapping FunctionImportName="getService" FunctionName="CarManagerModel.Store.getService">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CarManagerModel.getService_Result">
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateOfService" ColumnName="DateOfService" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CarIDCar" ColumnName="CarIDCar" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

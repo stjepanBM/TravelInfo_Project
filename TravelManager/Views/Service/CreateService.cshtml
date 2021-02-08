@@ -1,0 +1,72 @@
+﻿@model CustomCar.Service
+
+@{
+    ViewBag.Title = "CreateService";
+}
+
+<h2>Service of Car: @ViewBag.idcar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="form-group input-group-sm">
+            @Html.LabelFor(model => model.DateOfService, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.TextBoxFor(model => model.DateOfService, new { @class = "form-control datepicker",autocomplete ="off", placeholder = "Enter date here" })
+                @Html.ValidationMessageFor(model => model.DateOfService, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { autocomplete = "off", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarIDCar, "CarID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+ 
+
+                @Html.EditorFor(model => model.CarIDCar, new { htmlAttributes = new { autocomplete = "off", @class = "form-control" } })
+
+                @*@Html.DropDownList("CarIDCar", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.CarIDCar, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Service", new {idCar = ViewBag.idcar }, new { @class = "btn btn-primary" })
+</div>
+
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+
+@section   scripts{
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script type="text/javascript">
+        $(function () { // will trigger when the document is ready
+            $('.datepicker').datepicker({
+                dateFormat: "yy-mm-dd",
+                changeMonth:true
+            })            
+        });
+    </script>
+}

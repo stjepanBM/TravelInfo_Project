@@ -1,0 +1,83 @@
+﻿@model IEnumerable<TravelManager.Models.Car>
+
+@{
+    ViewBag.Title = "Cars";
+}
+
+<div class="display">
+
+    <h2>Cars</h2>
+
+    <p style="margin-bottom:3em;">
+        @Html.ActionLink("Create New", "AddCar", null, new { @class = "btn btn-primary" })
+    </p>
+</div>
+<table  class="table">
+    <thead>
+
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CarType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearOfMaking)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mileage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarReserved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearOfMaking)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mileage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarReserved)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditCar", new { IDCar = item.IDCar }, new { @class = "btn btn-success " })
+                    @Html.ActionLink("Car Service", "Service", "Service", new { idCar = item.IDCar }, new { @class = "btn btn-success " })
+                    @Html.ActionLink("Generate report","Report", "Service", new { idCar = item.IDCar }, new { @class = "btn btn-success " })
+                    @Html.ActionLink("Delete", "DeleteCar", new { IDCar = item.IDCar }, new { onclick = "return confirm('Are you sure you want to delete Car ')", @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@section   scripts{
+    
+    <script>
+        $(document).ready(function() {
+            $("table.table").DataTable({
+                'columnDefs': [{
+                    "orderable": false, "targets": [1, 2, 3, 4, 5]
+                }]
+            });
+        })
+        
+    </script>
+}
